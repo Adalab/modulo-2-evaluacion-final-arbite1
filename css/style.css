@@ -6,3 +6,13 @@
 .color{
     background-color: salmon;
 }
+
+.aside_list{
+    display: flex;
+    flex-direction: column;
+}
+.aside-left{
+    display: flex;
+    flex-direction: column;
+    
+}
