@@ -7,28 +7,43 @@ const ulElement = document.querySelector('.js-paint-shows');
 
 
 let inputValue = '';
-//Peticiones al servidor
+let data = '';
+
 
 function handleSearchApi(event) {
-    getApi(event); 
+    getApi(event);
 };
+//Peticiones al servidor, renderizo resultados Api
 
 function getApi(event) {
     event.preventDefault();
-    
-    const inputValue  = inputSearch.value.toLowerCase();
+    const inputValue = inputSearch.value.toLowerCase();
     const url = `https://api.tvmaze.com/search/shows?q=${inputValue}`;
-   
     fetch(url)
-    .then((response) => response.json())
-    .then((data )=> {
-        
-        console.log(data);
-});
+        .then((response) => response.json())
+        .then((data) => {
+            console.log(data);
+            renderSeriesList(data);
+        });
+}
+//Función renderizar la lista de series
+function renderSeriesList(listSeries) {
+    let html = '';
+    for (const itemSerie of listSeries) {
+        html += `<h2>${itemSerie.show.name}</h2>`;
+        if (itemSerie.show.image === null) {
+            html += `<img src="https://via.placeholder.com/210x295/ffffff/666666/?text=TV"/>`;
+        } else {
+            html += `<img src="${itemSerie.show.image.medium}"/>`;
+        }
+
+    }
+    results.innerHTML = html;
+
 }
 //Evento sobre el botón buscar
 
-btnSearch.addEventListener('click', handleSearchApi); 
+btnSearch.addEventListener('click', handleSearchApi);
 
 
 
