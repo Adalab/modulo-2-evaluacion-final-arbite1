@@ -1,1 +1,34 @@
 'use strict';
+
+const btnSearch = document.querySelector('.js-btn-search');
+const inputSearch = document.querySelector('.js-input');
+const results = document.querySelector('.js-results');
+const ulElement = document.querySelector('.js-paint-shows');
+
+
+let inputValue = '';
+//Peticiones al servidor
+
+function handleSearchApi(event) {
+    getApi(event); 
+};
+
+function getApi(event) {
+    event.preventDefault();
+    
+    const inputValue  = inputSearch.value.toLowerCase();
+    const url = `https://api.tvmaze.com/search/shows?q=${inputValue}`;
+   
+    fetch(url)
+    .then((response) => response.json())
+    .then((data )=> {
+        
+        console.log(data);
+});
+}
+//Evento sobre el botón buscar
+
+btnSearch.addEventListener('click', handleSearchApi); 
+
+
+
