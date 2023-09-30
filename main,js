@@ -32,7 +32,7 @@ function getApi(event) {
             console.log(data);
             idList = data;
             renderSeriesList(data);
-            renderFavList (data);
+           
           
            
         });
@@ -42,7 +42,7 @@ function getApi(event) {
 function renderSeriesList(listSeries) {
     let html = '';
     for (const itemSerie of listSeries) {
-        html += `<ul id=${itemSerie.show.id} class="js-ulList color">`
+        html += `<ul id=${itemSerie.show.id} class="js-ulList ">`
         
         html += `<h2>${itemSerie.show.name}</h2>`;
         if (itemSerie.show.image === null) {
@@ -68,11 +68,7 @@ function renderSeriesList(listSeries) {
                 html += `<img src="${itemSerie.show.image.medium}" alt="">`;
             }
             html += `<li class="js-li">${itemSerie.show.image}</li>`
-            if (itemSerie.show.image === null) {
-                html += `<img src="https://via.placeholder.com/210x295/ffffff/666666/?text=TV" alt="">`;
-            } else {
-                html += `<img src="${itemSerie.show.image.medium}" alt="">`;
-            }   
+           
             favorites.innerHTML = html;   
     }
     }
@@ -82,7 +78,7 @@ function renderSeriesList(listSeries) {
 function handleClick(event){
    console.log(event.currentTarget.id);
     const idClick = parseInt(event.currentTarget.id);// pongo parseInt porque el id son números 
-    let foundId = idList.find(itemSerie=> itemSerie.show.id === idClick);
+    let foundId = idList.find(itemSerie => itemSerie.show.id === idClick);
     console.log(foundId);
     //Comprobar si está en el listado de favoritos
     const indexFav = listFav.findIndex(itemSerie=>itemSerie.show.id === idClick);
@@ -96,7 +92,7 @@ function handleClick(event){
         listFav.splice(indexFav, 1); //si está (al clickar) lo elimino 1a posición
         event.currentTarget.classList.remove('color');     
     }
-    renderFavList(listFav); //OJO CONSIGO
+    renderFavList(listFav); 
     localStorage.setItem("myShows", JSON.stringify(listFav));//Guardar en localStorage mi lista de favoritos para no volver hacer petición al servidor
 }
 
