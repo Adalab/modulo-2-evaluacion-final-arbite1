@@ -10,7 +10,12 @@ let inputValue = '';
 let data = '';
 let idList = [];// creo array vacio para guardar el listado de series y no volver hacer fetch
 let listFav = [];//Lista de favoritos 
+const myList = JSON.parse(localStorage.getItem("myShows"));// Creo constante de localSorage
+if(myList !=null){
+    listFav = myList;
+    renderFavList(listFav);
 
+}
 
 function handleSearchApi(event) {
     getApi(event);
@@ -28,6 +33,7 @@ function getApi(event) {
             idList = data;
             renderSeriesList(data);
             renderFavList (data);
+          
            
         });
       
@@ -42,7 +48,7 @@ function renderSeriesList(listSeries) {
         if (itemSerie.show.image === null) {
             html += `<img src="https://via.placeholder.com/210x295/ffffff/666666/?text=TV"/>`;
         } else {
-            html += `<img src="${itemSerie.show.image.medium}"/>`;
+            html += `<img src="${itemSerie.show.image.medium}" alt="">`;
         }
         html += `</ul>`;  
            
@@ -51,7 +57,25 @@ function renderSeriesList(listSeries) {
         addEventsToList();
       
     }
-   
+    function renderFavList(listFav){
+       
+        let html = '';
+        for (const itemSerie of listFav) {
+            html += `<h2>${itemSerie.show.name}</h2>`;
+            if (itemSerie.show.image === null) {
+                html += `<img src="https://via.placeholder.com/210x295/ffffff/666666/?text=TV" alt="">`;
+            } else {
+                html += `<img src="${itemSerie.show.image.medium}" alt="">`;
+            }
+            html += `<li class="js-li">${itemSerie.show.image}</li>`
+            if (itemSerie.show.image === null) {
+                html += `<img src="https://via.placeholder.com/210x295/ffffff/666666/?text=TV" alt="">`;
+            } else {
+                html += `<img src="${itemSerie.show.image.medium}" alt="">`;
+            }   
+            favorites.innerHTML = html;   
+    }
+    }
 
 
 //2Evento sobre la lista de series
@@ -61,35 +85,21 @@ function handleClick(event){
     let foundId = idList.find(itemSerie=> itemSerie.show.id === idClick);
     console.log(foundId);
     //Comprobar si está en el listado de favoritos
-    const indexFav = listFav.findIndex(itemSerie=>itemSerie.show.id === idShow);
+    const indexFav = listFav.findIndex(itemSerie=>itemSerie.show.id === idClick);
     
     if(indexFav === -1){
         listFav.push(foundId); // con push agrego elemento
+
         event.currentTarget.classList.add('color');
 
     }else{
         listFav.splice(indexFav, 1); //si está (al clickar) lo elimino 1a posición
         event.currentTarget.classList.remove('color');     
     }
+    renderFavList(listFav); //OJO CONSIGO
+    localStorage.setItem("myShows", JSON.stringify(listFav));//Guardar en localStorage mi lista de favoritos para no volver hacer petición al servidor
 }
-function renderFavList(listFav){
-    let html = '';
-    for (const itemSerie of listFav) {
-        html += `<h2>${itemSerie.show.name}</h2>`;
-        if (itemSerie.show.image === null) {
-            html += `<img src="https://via.placeholder.com/210x295/ffffff/666666/?text=TV"/>`;
-        } else {
-            html += `<img src="${itemSerie.show.image.medium}"/>`;
-        }
-        html += `<li class="js-li">${itemSerie.show.image}</li>`
-        if (itemSerie.show.image === null) {
-            html += `<img src="https://via.placeholder.com/210x295/ffffff/666666/?text=TV"/>`;
-        } else {
-            html += `<img src="${itemSerie.show.image.medium}"/>`;
-        }   
-        favorites.innerHTML = html;   
-}
-}
+
 
 
 
