@@ -5,7 +5,6 @@ const inputSearch = document.querySelector(".js-input");
 const results = document.querySelector(".js-results");
 const favorites = document.querySelector(".js-fav");
 /*const removeBtn = document.querySelector(".js-reset btn");*/
-const removeIcon = document.querySelectorAll(".remove-favorite");
 
 let inputValue = "";
 let data = "";
@@ -68,7 +67,7 @@ function renderFavList(listFav) {
   }
 }
 
-//2Evento sobre la lista de series
+//2Evento sobre la lista de series( identificar id)
 function handleClick(event) {
   console.log(event.currentTarget.id);
   const idClick = parseInt(event.currentTarget.id); // pongo parseInt porque el id son números
@@ -91,7 +90,7 @@ function handleClick(event) {
   localStorage.setItem("myShows", JSON.stringify(listFav)); //Guardar en localStorage mi lista de favoritos para no volver hacer petición al servidor
 }
 
-//1Evento sobre la lista de series
+//1Evento sobre la lista de series(ul)
 function addEventsToList() {
   const allList = document.querySelectorAll(".js-ulList");
   console.log(allList);
@@ -99,22 +98,29 @@ function addEventsToList() {
     item.addEventListener("click", handleClick);
   }
 }
+
+// Función manejadora remove
 function handleRemoveFavorite(event) {
   const idRemove = parseInt(event.currentTarget.id);
   //Elimina al favorito del array de la listFav
   const indexRemove = listFav.findIndex(
-    (itemSerie) => itemSerie.show.id === parseInt(idRemove)
+    (itemSerie) => itemSerie.show.id === idRemove
   );
   if (indexRemove !== -1) {
     listFav.splice(indexRemove, 1); //Actualiza la render list de favorites
   }
   renderFavList(listFav);
+  removeFavorite();
 }
 //3Evento sobre el icono X
 
-function remove() {
-  removeIcon.addEventListener("click", handleRemoveFavorite);
+function removeFavorite() {
+  const removeIcon = document.querySelectorAll(".remove-favorite");
+  for (const icon of removeIcon) {
+    icon.addEventListener("click", handleRemoveFavorite);
+  }
 }
+
 //Evento sobre el botón buscar
 
 btnSearch.addEventListener("click", handleSearchApi);
