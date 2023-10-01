@@ -8,18 +8,19 @@
 </head>
 <body>
     <header>
-        <h1>Buscador de series</h1>
+        <h1 class="header-title">Buscador de series</h1>
         <div class="container">
-            <form action="">
-                <input class="js-input" type="text" placeholder="Nombre de la serie">
-                <input class="js-btn-search" type="submit" value="Buscar">
+            <form action class="form">
+                <input class="header-input js-input" type="text" placeholder="Nombre de la serie">
+                <input class="header-btn-search js-btn-search" type="submit" value="Buscar">
             </form>
             <div class="aside_list js-results"></div>
         </header>
         <main>
             <div class="aside-left">
-            <h2>Mis series favoritas</h2>
+            <h2 class="main-title">Mis series favoritas</h2>
             <section class="color js-fav"></section>
+            <button class="js-reset btn">Reset</button>
             <ul class="js-ulList "></ul>
         </div>
         </main>

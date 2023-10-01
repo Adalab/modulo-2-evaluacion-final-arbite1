@@ -1,113 +1,120 @@
-'use strict';
+"use strict";
 
-const btnSearch = document.querySelector('.js-btn-search');
-const inputSearch = document.querySelector('.js-input');
-const results = document.querySelector('.js-results');
-const favorites = document.querySelector('.js-fav');
+const btnSearch = document.querySelector(".js-btn-search");
+const inputSearch = document.querySelector(".js-input");
+const results = document.querySelector(".js-results");
+const favorites = document.querySelector(".js-fav");
+/*const removeBtn = document.querySelector(".js-reset btn");*/
+const removeIcon = document.querySelectorAll(".remove-favorite");
 
-
-let inputValue = '';
-let data = '';
-let idList = [];// creo array vacio para guardar el listado de series y no volver hacer fetch
-let listFav = [];//Lista de favoritos 
-const myList = JSON.parse(localStorage.getItem("myShows"));// Creo constante de localSorage
-if(myList !=null){
-    listFav = myList;
-    renderFavList(listFav);
-
+let inputValue = "";
+let data = "";
+let idList = []; // creo array vacio para guardar el listado de series y no volver hacer fetch
+let listFav = []; //Lista de favoritos
+const myList = JSON.parse(localStorage.getItem("myShows")); // Creo constante de localSorage
+if (myList != null) {
+  listFav = myList;
+  renderFavList(listFav);
 }
 
 function handleSearchApi(event) {
-    getApi(event);
-};
+  getApi(event);
+}
 //Peticiones al servidor, renderizo resultados Api
 
 function getApi(event) {
-    event.preventDefault();
-    const inputValue = inputSearch.value.toLowerCase();
-    const url = `https://api.tvmaze.com/search/shows?q=${inputValue}`;
-    fetch(url)
-        .then((response) => response.json())
-        .then((data) => {
-            console.log(data);
-            idList = data;
-            renderSeriesList(data);
-           
-          
-           
-        });
-      
+  event.preventDefault();
+  const inputValue = inputSearch.value.toLowerCase();
+  const url = `https://api.tvmaze.com/search/shows?q=${inputValue}`;
+  fetch(url)
+    .then((response) => response.json())
+    .then((data) => {
+      console.log(data);
+      idList = data;
+      renderSeriesList(data);
+    });
 }
 //Función renderizar la lista de series
 function renderSeriesList(listSeries) {
-    let html = '';
-    for (const itemSerie of listSeries) {
-        html += `<ul id=${itemSerie.show.id} class="js-ulList ">`
-        
-        html += `<h2>${itemSerie.show.name}</h2>`;
-        if (itemSerie.show.image === null) {
-            html += `<img src="https://via.placeholder.com/210x295/ffffff/666666/?text=TV"/>`;
-        } else {
-            html += `<img src="${itemSerie.show.image.medium}" alt="">`;
-        }
-        html += `</ul>`;  
-           
-        }
-        results.innerHTML = html;
-        addEventsToList();
-      
+  let html = "";
+  for (const itemSerie of listSeries) {
+    html += `<ul id=${itemSerie.show.id} class="js-ulList">`;
+
+    html += `<h2>${itemSerie.show.name}</h2>`;
+    if (itemSerie.show.image === null) {
+      html += `<img src="https://via.placeholder.com/210x295/ffffff/666666/?text=TV"/>`;
+    } else {
+      html += `<img src="${itemSerie.show.image.medium}" alt="">`;
     }
-    function renderFavList(listFav){
-       
-        let html = '';
-        for (const itemSerie of listFav) {
-            html += `<h2>${itemSerie.show.name}</h2>`;
-            if (itemSerie.show.image === null) {
-                html += `<img src="https://via.placeholder.com/210x295/ffffff/666666/?text=TV" alt="">`;
-            } else {
-                html += `<img src="${itemSerie.show.image.medium}" alt="">`;
-            }
-            html += `<li class="js-li">${itemSerie.show.image}</li>`
-           
-            favorites.innerHTML = html;   
-    }
+    html += `</ul>`;
+  }
+  results.innerHTML = html;
+  addEventsToList();
+}
+function renderFavList(listFav) {
+  let html = "";
+  for (const itemSerie of listFav) {
+    html += `<h2 class="favorite-title">${itemSerie.show.name}</h2>`;
+    if (itemSerie.show.image === null) {
+      html += `<img src="https://via.placeholder.com/210x295/ffffff/666666/?text=TV" alt="">`;
+    } else {
+      html += `<img src="${itemSerie.show.image.medium}" alt="">`;
     }
 
+    html += `<li class="js-li">${itemSerie.show.image}</li>`;
+    html += `<span class="remove-favorite">X</span>`; // Icono para quitar favorito
+
+    favorites.innerHTML = html;
+  }
+}
 
 //2Evento sobre la lista de series
-function handleClick(event){
-   console.log(event.currentTarget.id);
-    const idClick = parseInt(event.currentTarget.id);// pongo parseInt porque el id son números 
-    let foundId = idList.find(itemSerie => itemSerie.show.id === idClick);
-    console.log(foundId);
-    //Comprobar si está en el listado de favoritos
-    const indexFav = listFav.findIndex(itemSerie=>itemSerie.show.id === idClick);
-    
-    if(indexFav === -1){
-        listFav.push(foundId); // con push agrego elemento
+function handleClick(event) {
+  console.log(event.currentTarget.id);
+  const idClick = parseInt(event.currentTarget.id); // pongo parseInt porque el id son números
+  let foundId = idList.find((itemSerie) => itemSerie.show.id === idClick);
+  console.log(foundId);
+  //Comprobar si está en el listado de favoritos
+  const indexFav = listFav.findIndex(
+    (itemSerie) => itemSerie.show.id === idClick
+  );
 
-        event.currentTarget.classList.add('color');
+  if (indexFav === -1) {
+    listFav.push(foundId); // con push agrego elemento
 
-    }else{
-        listFav.splice(indexFav, 1); //si está (al clickar) lo elimino 1a posición
-        event.currentTarget.classList.remove('color');     
-    }
-    renderFavList(listFav); 
-    localStorage.setItem("myShows", JSON.stringify(listFav));//Guardar en localStorage mi lista de favoritos para no volver hacer petición al servidor
+    event.currentTarget.classList.add("color");
+  } else {
+    listFav.splice(indexFav, 1); //si está (al clickar) lo elimino 1a posición
+    event.currentTarget.classList.remove("color");
+  }
+  renderFavList(listFav);
+  localStorage.setItem("myShows", JSON.stringify(listFav)); //Guardar en localStorage mi lista de favoritos para no volver hacer petición al servidor
 }
-
-
-
 
 //1Evento sobre la lista de series
-function addEventsToList(){
-const allList = document.querySelectorAll('.js-ulList');
-console.log(allList);
-for (const item of allList) {
-    item.addEventListener('click', handleClick);
+function addEventsToList() {
+  const allList = document.querySelectorAll(".js-ulList");
+  console.log(allList);
+  for (const item of allList) {
+    item.addEventListener("click", handleClick);
+  }
 }
+function handleRemoveFavorite(event) {
+  const idRemove = parseInt(event.currentTarget.id);
+  //Elimina al favorito del array de la listFav
+  const indexRemove = listFav.findIndex(
+    (itemSerie) => itemSerie.show.id === parseInt(idRemove)
+  );
+  if (indexRemove !== -1) {
+    listFav.splice(indexRemove, 1); //Actualiza la render list de favorites
+  }
+  renderFavList(listFav);
+}
+//3Evento sobre el icono X
 
+function remove() {
+  removeIcon.addEventListener("click", handleRemoveFavorite);
 }
 //Evento sobre el botón buscar
 
-btnSearch.addEventListener('click', handleSearchApi);
+btnSearch.addEventListener("click", handleSearchApi);
