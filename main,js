@@ -39,7 +39,7 @@ function renderSeriesList(listSeries) {
   for (const itemSerie of listSeries) {
     html += `<ul id=${itemSerie.show.id} class="js-ulList">`;
 
-    html += `<h2>${itemSerie.show.name}</h2>`;
+    html += `<h2 class="show-title">${itemSerie.show.name}</h2>`;
     if (itemSerie.show.image === null) {
       html += `<img src="https://via.placeholder.com/210x295/ffffff/666666/?text=TV"/>`;
     } else {
@@ -60,7 +60,6 @@ function renderFavList(listFav) {
       html += `<img src="${itemSerie.show.image.medium}" alt="">`;
     }
 
-    html += `<li class="js-li">${itemSerie.show.image}</li>`;
     html += `<span class="remove-favorite">X</span>`; // Icono para quitar favorito
 
     favorites.innerHTML = html;

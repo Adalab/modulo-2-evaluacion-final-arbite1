@@ -1,71 +1,89 @@
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 .container {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .header-title {
-    display: flex;
-    font-size: 40px;
-    justify-content: center;
-    margin-bottom: 30px;
-    margin-top: 20px;
+  display: flex;
+  font-size: 50px;
+  justify-content: center;
+  margin-bottom: 30px;
+  margin-top: 60px;
+  color: #efa94a;
+}
+.header_menu-img {
+  width: 100px;
 }
 
 .header-input {
-    width: 250px;
-    font-size: 14px;
+  width: 250px;
+  font-size: 14px;
+  background-color: #bfb0b8;
 }
 
 .header-btn-search {
-    display: flex;
-    width: 70px;
-    padding-left: 12px;
-    border-radius: 13em/3em;
+  display: flex;
+  width: 70px;
+  padding-left: 12px;
+  border-radius: 13em/3em;
+  background-color: #efa94a;
 }
 
 .form {
-    display: flex;
-    margin-left: 10px;
-    height: 30px;
-    gap: 15px;
-    margin-bottom: 30px;
+  display: flex;
+  margin-left: 10px;
+  height: 30px;
+  gap: 15px;
+  margin-bottom: 30px;
 }
-.main-title{
-    font-size: 35px;
-    margin-bottom: 10px;
+
+.main-title {
+  font-size: 35px;
+  margin-bottom: 10px;
+  color: #efa94a;
+}
+.show-title {
+  font-size: 30px;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 
 .aside-left,
 .aside-list {
-    display: flex;
-    margin-left: 10px;
-    border: 1px solid #ccc;
-    flex-direction: row;
+  display: flex;
+
+  flex-direction: row;
 }
 
 .aside-left {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
 
 ul.js-ulList {
-    list-style: none;
-    margin-left: 10px;
+  list-style: none;
+  margin-left: 10px;
 }
 
 .color {
-    border: 4px solid  salmon;
+  border: 8px solid #efa94a;
+  background-color: #9da1aa;
 }
 
 .favorite-title {
-    color: blue; 
+  color: #8673a1;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  font-size: 30px;
 }
 
-
+body {
+  background-color: #8673a1;
+}
