@@ -14,6 +14,7 @@ const myList = JSON.parse(localStorage.getItem("myShows")); // Creo constante de
 if (myList != null) {
   listFav = myList;
   renderFavList(listFav);
+  removeFavorite();
 }
 
 function handleSearchApi(event) {
@@ -60,10 +61,10 @@ function renderFavList(listFav) {
       html += `<img src="${itemSerie.show.image.medium}" alt="">`;
     }
 
-    html += `<span class="remove-favorite">X</span>`; // Icono para quitar favorito
+    html += `<span class="remove-favorite"id=${itemSerie.show.id}">X</span>`; // Icono para quitar favorito
 
     favorites.innerHTML = html;
-    /*removeFavorite();*/
+    removeFavorite();
   }
 }
 
@@ -87,7 +88,7 @@ function handleClick(event) {
     event.currentTarget.classList.remove("color");
   }
   renderFavList(listFav);
-  /*removeFavorite();*/
+  removeFavorite();
   localStorage.setItem("myShows", JSON.stringify(listFav)); //Guardar en localStorage mi lista de favoritos para no volver hacer petición al servidor
 }
 
@@ -101,14 +102,17 @@ function addEventsToList() {
 }
 
 // Función manejadora remove
-/*function handleRemoveFavorite(event) {
-  const idRemove = parseInt(event.currentTarget.id);
+function handleRemoveFavorite(event) {
+  const idRemove = parseInt(event.currentTarget.getAttribute("data-id"));
 
   //Busca si está en el listado de favoritos
-  const indexRemove = listFav.findIndex((icon) => icon.show.id === idRemove);
+  const indexRemove = listFav.findIndex(
+    (itemSerie) => itemSerie.show.id === idRemove
+  );
   console.log(indexRemove);
-  listFav.splice(indexRemove, 1); //Actualiza la render list de favorites
-
+  if (indexRemove !== -1) {
+    listFav.splice(indexRemove, 1); //Actualiza la render list de favorites
+  }
   renderFavList(listFav);
   localStorage.setItem("myShows", JSON.stringify(listFav));
 }
@@ -119,7 +123,7 @@ function removeFavorite() {
   for (const icon of removeIcon) {
     icon.addEventListener("click", handleRemoveFavorite);
   }
-}*/
+}
 
 //Evento sobre el botón buscar
 
