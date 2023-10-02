@@ -55,16 +55,19 @@
   margin-bottom: 10px;
 }
 
-.aside-left,
-.aside-list {
+.aside_list {
+  width: 80%;
   display: flex;
-
-  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: flex-end;
 }
 
 .aside-left {
   display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
   flex-direction: column;
+  width: 40%;
 }
 
 ul.js-ulList {
